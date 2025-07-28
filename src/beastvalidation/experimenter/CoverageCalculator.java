@@ -1,6 +1,7 @@
 package beastvalidation.experimenter;
 
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -166,11 +167,15 @@ public class CoverageCalculator extends Runnable {
 					+ "</body>\n</html>");
 			html.close();
 
-			try {
-				Application.openUrl("file://" + outdir.getAbsolutePath() + "/coverage.html");
-			} catch (IOException e) {
-				e.printStackTrace();
-				Log.warning("Output in " + outdir.getPath()+"/coverage.html");
+			if (!GraphicsEnvironment.isHeadless()) {
+				try {
+					Application.openUrl("file://" + outdir.getAbsolutePath() + "/coverage.html");
+				} catch (IOException e) {
+					e.printStackTrace();
+					Log.warning("Output in " + outdir.getPath() + "/coverage.html");
+				}
+			} else {
+				Log.warning("Headless environment detected. Coverage html report available at " + outdir.getPath() + "/coverage.html");
 			}
 		}
 
